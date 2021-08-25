@@ -37,4 +37,23 @@ router.post("/", (req, res) => {
     .catch((e) => res.status(400).json({ message: e }));
 });
 
+router.patch("/:icnumber", (req, res) => {
+  const { hasVoted } = req.body;
+  User.findOneAndUpdate(
+    {
+      icnumber: req.params.icnumber,
+    },
+    {
+      hasVoted: hasVoted,
+    },
+    (err, doc) => {
+      if (err || !doc) {
+        res.status(400).json({ message: err });
+      } else {
+        res.status(200).json("Patched user hasVoted status!");
+      }
+    }
+  );
+});
+
 module.exports = router;
